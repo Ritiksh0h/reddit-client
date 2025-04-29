@@ -1,6 +1,7 @@
 // lib/reddit.ts
 import { SubredditPost, Comment } from "@/types";
 import { toast } from "sonner";
+import { getCachedAvatar, setCachedAvatar } from "@/lib/avatarCache";
 
 // Format timestamp to relative time
 export const formatTimestamp = (timestamp: number) => {
@@ -31,34 +32,34 @@ export const getAvatarLetter = (username: string) => {
 // Fetch posts from a subreddit
 export const fetchPosts = async (subreddit: string, sort: string) => {
   try {
-    const response = await fetch(
-      `https://www.reddit.com/r/${subreddit}/${sort}.json`
-    );
-    if (!response.ok) throw new Error("Failed to fetch posts");
+    if (!subreddit) throw new Error("No subreddit provided");
 
-    const data = await response.json();
-    const posts = data.data.children.map(
-      (child: { data: SubredditPost }) => ({
+    const url = `https://www.reddit.com/r/${subreddit}/${sort}.json`;
+
+    const response = await fetch(url);
+    if (!response.ok) {
+      console.warn("First fetch failed, retrying...");
+      const retryResponse = await fetch(url);
+      if (!retryResponse.ok) {
+        throw new Error(`Failed to fetch posts after retry: ${retryResponse.status}`);
+      }
+      const retryData = await retryResponse.json();
+      return retryData.data.children.map((child: { data: SubredditPost }) => ({
         ...child.data,
         subreddit: child.data.subreddit,
-      })
-    );
+        avatar: null,
+      }));
+    }
 
-    // Fetch avatars for each post author
-    const postsWithAvatars = await Promise.all(
-      posts.map(async (post: SubredditPost) => {
-        const avatar = await fetchUserAvatar(post.author);
-        return {
-          ...post,
-          avatar,
-        };
-      })
-    );
-
-    return postsWithAvatars;
+    const data = await response.json();
+    return data.data.children.map((child: { data: SubredditPost }) => ({
+      ...child.data,
+      subreddit: child.data.subreddit,
+      avatar: null,
+    }));
   } catch (error) {
     console.error(`Error fetching posts for r/${subreddit}:`, error);
-    toast(`Failed to load posts for r/${subreddit}`);
+    toast.error(`Could not load posts for r/${subreddit}. Please try again.`);
     return [];
   }
 };
@@ -94,6 +95,12 @@ export const fetchComments = async (permalink: string) => {
 
 // Fetch user avatar
 export const fetchUserAvatar = async (username: string) => {
+  // Check cache first
+  const cachedAvatar = getCachedAvatar(username);
+  if (cachedAvatar !== null) {
+    return cachedAvatar;
+  }
+
   try {
     const response = await fetch(
       `https://www.reddit.com/user/${username}/about.json`
@@ -101,12 +108,18 @@ export const fetchUserAvatar = async (username: string) => {
     if (!response.ok) throw new Error("Failed to fetch user info");
 
     const data = await response.json();
-    return data.data.icon_img || null;
+    const avatarUrl = data.data.icon_img || null;
+
+    // Save in cache
+    setCachedAvatar(username, avatarUrl);
+
+    return avatarUrl;
   } catch (error) {
     console.error("Error fetching user avatar:", error);
     return null;
   }
 };
+
 
 // Validate if subreddit exists
 export const validateSubreddit = async (name: string) => {

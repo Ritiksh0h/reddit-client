@@ -30,12 +30,19 @@ export default function PostList({
     loadPosts();
   }, [subredditName, sortBy]);
 
+  if (!subredditName) return;
+
   const loadPosts = async () => {
-    setIsLoading(true);
-    const fetchedPosts = await fetchPosts(subredditName, sortBy);
-    setPosts(fetchedPosts);
-    onPostsLoaded(fetchedPosts.length);
-    setIsLoading(false);
+    try {
+      setIsLoading(true);
+      const fetchedPosts = await fetchPosts(subredditName, sortBy);
+      setPosts(fetchedPosts);
+      onPostsLoaded(fetchedPosts.length);
+    } catch (error) {
+      console.error("Error loading posts:", error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   // Filter posts based on search query
@@ -46,7 +53,11 @@ export default function PostList({
   );
 
   return (
-    <div className="md:w-[450px] border-r border-[#343536] flex flex-col">
+    <div
+      className={`md:w-[300px] lg:w-[450px] border-r border-[#343536] flex flex-col ${
+        selectedPost ? "hidden md:flex" : "flex"
+      }`}
+    >
       <SubredditHeader
         subredditName={subredditName}
         searchQuery={searchQuery}
@@ -56,7 +67,7 @@ export default function PostList({
 
       <SortTabs sortBy={sortBy} onSortChange={setSortBy} />
 
-      <ScrollArea className="flex-1 md:overflow-y-scroll">
+      <ScrollArea className="flex-1 overflow-y-scroll">
         {isLoading ? (
           <div className="p-4 text-center text-[#818384]">Loading posts...</div>
         ) : filteredPosts.length === 0 ? (

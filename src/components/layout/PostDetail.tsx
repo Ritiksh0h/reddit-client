@@ -32,7 +32,11 @@ export default function PostDetail({ selectedPost }: PostDetailProps) {
   };
 
   return (
-    <div className="flex-1 flex flex-col">
+    <div
+      className={`flex-1 flex flex-col ${
+        !selectedPost ? "hidden md:flex" : "flex"
+      }`}
+    >
       {!selectedPost ? (
         <div className="flex items-center justify-center h-full text-[#818384]">
           Select a post to view details

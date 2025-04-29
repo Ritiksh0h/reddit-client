@@ -20,14 +20,54 @@ import { toast } from "sonner";
 
 export default function Home() {
   const [subreddits, setSubreddits] = useState<Subreddit[]>([
-    { name: "popular", displayName: "Popular", count: 0, icon: <Star className="h-4 w-4" /> },
-    { name: "all", displayName: "All", count: 0, icon: <Globe className="h-4 w-4" /> },
-    { name: "news", displayName: "News", count: 0, icon: <FileText className="h-4 w-4" /> },
-    { name: "worldnews", displayName: "Worldnews", count: 0, icon: <Globe className="h-4 w-4" /> },
-    { name: "funny", displayName: "Funny", count: 0, icon: <MessageSquare className="h-4 w-4" /> },
-    { name: "askreddit", displayName: "Askreddit", count: 0, icon: <MessageSquare className="h-4 w-4" /> },
-    { name: "gaming", displayName: "Gaming", count: 0, icon: <Gamepad2 className="h-4 w-4" /> },
-    { name: "science", displayName: "Science", count: 0, icon: <Atom className="h-4 w-4" /> },
+    {
+      name: "popular",
+      displayName: "Popular",
+      count: 0,
+      icon: <Star className="h-4 w-4" />,
+    },
+    {
+      name: "all",
+      displayName: "All",
+      count: 0,
+      icon: <Globe className="h-4 w-4" />,
+    },
+    {
+      name: "news",
+      displayName: "News",
+      count: 0,
+      icon: <FileText className="h-4 w-4" />,
+    },
+    {
+      name: "worldnews",
+      displayName: "Worldnews",
+      count: 0,
+      icon: <Globe className="h-4 w-4" />,
+    },
+    {
+      name: "funny",
+      displayName: "Funny",
+      count: 0,
+      icon: <MessageSquare className="h-4 w-4" />,
+    },
+    {
+      name: "askreddit",
+      displayName: "Askreddit",
+      count: 0,
+      icon: <MessageSquare className="h-4 w-4" />,
+    },
+    {
+      name: "gaming",
+      displayName: "Gaming",
+      count: 0,
+      icon: <Gamepad2 className="h-4 w-4" />,
+    },
+    {
+      name: "science",
+      displayName: "Science",
+      count: 0,
+      icon: <Atom className="h-4 w-4" />,
+    },
   ]);
 
   const [selectedSubreddit, setSelectedSubreddit] = useState<string>("popular");
@@ -79,7 +119,7 @@ export default function Home() {
   return (
     <div className="flex h-screen bg-[#1a1a1b] text-[#d7dadc]">
       {/* Mobile Topbar */}
-      <div className="md:hidden fixed top-0 left-0 right-0 h-12 bg-[#1a1a1b] border-b border-[#343536] flex items-center justify-between px-4 z-20">
+      <div className="lg:hidden fixed top-0 left-0 right-0 h-12 bg-[#1a1a1b] border-b border-[#343536] flex items-center justify-between px-4 z-20">
         {selectedPost ? (
           <button onClick={() => setSelectedPost(null)}>
             <ArrowLeft className="h-6 w-6" />
@@ -94,7 +134,7 @@ export default function Home() {
       </div>
 
       {/* Left Sidebar */}
-      <div className="hidden md:flex">
+      <div className="hidden lg:flex">
         <LeftSidebar
           subreddits={subreddits}
           selectedSubreddit={selectedSubreddit}
@@ -125,21 +165,18 @@ export default function Home() {
       {/* Main Content */}
       <div className="flex-1 flex flex-col md:flex-row pt-12 md:pt-0">
         {/* PostList (middle) */}
-        <div className={`w-full md:w-[450px] border-r border-[#343536] flex flex-col ${selectedPost ? "hidden md:flex" : "flex"}`}>
-          <PostList
-            subredditName={selectedSubreddit}
-            selectedPost={selectedPost}
-            onPostSelect={(post) => {
-              setSelectedPost(post);
-            }}
-            onPostsLoaded={handlePostsLoaded}
-          />
-        </div>
+
+        <PostList
+          subredditName={selectedSubreddit}
+          selectedPost={selectedPost}
+          onPostSelect={(post) => {
+            setSelectedPost(post);
+          }}
+          onPostsLoaded={handlePostsLoaded}
+        />
 
         {/* PostDetail (right) */}
-        <div className={`flex-1 flex flex-col ${!selectedPost ? "hidden md:flex" : "flex"}`}>
-          <PostDetail selectedPost={selectedPost} />
-        </div>
+        <PostDetail selectedPost={selectedPost} />
       </div>
     </div>
   );

@@ -1,7 +1,3 @@
-Of course! Here's a clean and professional `README.md` you can use for your project:
-
----
-
 # Reddit Client
 
 A simple Reddit client where you can view, manage, and interact with subreddits.  

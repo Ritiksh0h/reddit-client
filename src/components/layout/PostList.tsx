@@ -1,3 +1,4 @@
+// components/layout/PostList.tsx
 import { useState, useEffect } from "react";
 import { SubredditPost } from "@/types";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -45,7 +46,7 @@ export default function PostList({
   );
 
   return (
-    <div className="w-[450px] border-r border-[#343536] flex flex-col">
+    <div className="md:w-[450px] border-r border-[#343536] flex flex-col">
       <SubredditHeader
         subredditName={subredditName}
         searchQuery={searchQuery}
@@ -55,11 +56,9 @@ export default function PostList({
 
       <SortTabs sortBy={sortBy} onSortChange={setSortBy} />
 
-      <ScrollArea className="flex-1 overflow-auto">
+      <ScrollArea className="flex-1 md:overflow-y-scroll">
         {isLoading ? (
-          <div className="p-4 text-center text-[#818384]">
-            Loading posts...
-          </div>
+          <div className="p-4 text-center text-[#818384]">Loading posts...</div>
         ) : filteredPosts.length === 0 ? (
           <div className="p-4 text-center text-[#818384]">
             {searchQuery ? "No posts match your search" : "No posts found"}

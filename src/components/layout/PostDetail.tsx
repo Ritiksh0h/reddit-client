@@ -38,15 +38,16 @@ export default function PostDetail({ selectedPost }: PostDetailProps) {
           Select a post to view details
         </div>
       ) : (
-        <div className="flex-1 flex flex-col">
+        <>
           <PostHeader post={selectedPost} />
-          <ScrollArea className="flex-1 p-2 overflow-auto">
+
+          <ScrollArea className="flex-1 p-2 overflow-y-scroll">
             <div className="space-y-4">
               <PostContent post={selectedPost} />
               <CommentList comments={comments} isLoading={isLoadingComments} />
             </div>
           </ScrollArea>
-        </div>
+        </>
       )}
     </div>
   );

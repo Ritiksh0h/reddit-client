@@ -52,7 +52,7 @@ export default function SubredditItem({
           {isRefreshing ? (
             <RefreshCw className="h-4 w-4 animate-spin" />
           ) : (
-            subreddit.icon
+            <subreddit.icon className="h-4 w-4" />
           )}
           <span>R/{subreddit.displayName}</span>
 

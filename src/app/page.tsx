@@ -2,73 +2,16 @@
 
 import { useState } from "react";
 import { Subreddit, SubredditPost } from "@/types";
-import {
-  Star,
-  FileText,
-  Globe,
-  MessageSquare,
-  Gamepad2,
-  Atom,
-  Menu,
-  ArrowLeft,
-} from "lucide-react";
+import { Menu, ArrowLeft } from "lucide-react";
 
 import LeftSidebar from "@/components/layout/LeftSidebar";
 import PostList from "@/components/layout/PostList";
 import PostDetail from "@/components/layout/PostDetail";
 import { toast } from "sonner";
+import { defaultSubreddit } from "@/lib/DefaultSubreddit";
 
 export default function Home() {
-  const [subreddits, setSubreddits] = useState<Subreddit[]>([
-    {
-      name: "popular",
-      displayName: "Popular",
-      count: 0,
-      icon: <Star className="h-4 w-4" />,
-    },
-    {
-      name: "all",
-      displayName: "All",
-      count: 0,
-      icon: <Globe className="h-4 w-4" />,
-    },
-    {
-      name: "news",
-      displayName: "News",
-      count: 0,
-      icon: <FileText className="h-4 w-4" />,
-    },
-    {
-      name: "worldnews",
-      displayName: "Worldnews",
-      count: 0,
-      icon: <Globe className="h-4 w-4" />,
-    },
-    {
-      name: "funny",
-      displayName: "Funny",
-      count: 0,
-      icon: <MessageSquare className="h-4 w-4" />,
-    },
-    {
-      name: "askreddit",
-      displayName: "Askreddit",
-      count: 0,
-      icon: <MessageSquare className="h-4 w-4" />,
-    },
-    {
-      name: "gaming",
-      displayName: "Gaming",
-      count: 0,
-      icon: <Gamepad2 className="h-4 w-4" />,
-    },
-    {
-      name: "science",
-      displayName: "Science",
-      count: 0,
-      icon: <Atom className="h-4 w-4" />,
-    },
-  ]);
+  const [subreddits, setSubreddits] = useState<Subreddit[]>(defaultSubreddit);
 
   const [selectedSubreddit, setSelectedSubreddit] = useState<string>("popular");
   const [selectedPost, setSelectedPost] = useState<SubredditPost | null>(null);
@@ -173,6 +116,7 @@ export default function Home() {
             setSelectedPost(post);
           }}
           onPostsLoaded={handlePostsLoaded}
+          onDeleteSubreddit={handleDeleteSubreddit}
         />
 
         {/* PostDetail (right) */}

@@ -12,6 +12,7 @@ interface PostListProps {
   selectedPost: SubredditPost | null;
   onPostSelect: (post: SubredditPost) => void;
   onPostsLoaded: (count: number) => void;
+  onDeleteSubreddit: (name: string) => void;
 }
 
 export default function PostList({
@@ -19,6 +20,7 @@ export default function PostList({
   selectedPost,
   onPostSelect,
   onPostsLoaded,
+  onDeleteSubreddit
 }: PostListProps) {
   const [posts, setPosts] = useState<SubredditPost[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -63,6 +65,7 @@ export default function PostList({
         searchQuery={searchQuery}
         onSearchChange={setSearchQuery}
         onRefresh={loadPosts}
+        onDelete={onDeleteSubreddit}
       />
 
       <SortTabs sortBy={sortBy} onSortChange={setSortBy} />

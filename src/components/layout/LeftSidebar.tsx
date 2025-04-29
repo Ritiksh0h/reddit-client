@@ -31,7 +31,9 @@ export default function LeftSidebar({
 }: LeftSidebarProps) {
   const handleAddSubreddit = (name: string) => {
     // Check if subreddit already exists in our list
-    if (subreddits.some((sub) => sub.name.toLowerCase() === name.toLowerCase())) {
+    if (
+      subreddits.some((sub) => sub.name.toLowerCase() === name.toLowerCase())
+    ) {
       toast("This subreddit is already in your list");
       return;
     }
@@ -41,7 +43,7 @@ export default function LeftSidebar({
       name: name,
       displayName: name.charAt(0).toUpperCase() + name.slice(1),
       count: 0,
-      icon: <MessageSquare className="h-4 w-4" />, // Default icon
+      icon: MessageSquare, // Default icon
       isCustom: true,
     };
 
@@ -66,7 +68,7 @@ export default function LeftSidebar({
           <AddSubredditDialog onAddSubreddit={handleAddSubreddit} />
 
           <Separator className="my-2" />
-          
+
           {subreddits.map((subreddit) => (
             <SubredditItem
               key={subreddit.name}

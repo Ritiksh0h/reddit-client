@@ -1,5 +1,5 @@
 // types/index.ts
-import { ReactNode } from "react";
+import { LucideIcon } from "lucide-react";
 
 export interface SubredditPost {
   id: string;
@@ -21,8 +21,8 @@ export interface Subreddit {
   name: string;
   displayName: string;
   count: number;
-  icon: ReactNode;
-  isCustom?: boolean; // Flag to indicate if this is a user-added subreddit
+  icon: LucideIcon;
+  isCustom?: boolean;
 }
 
 export interface Comment {

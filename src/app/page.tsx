@@ -60,7 +60,7 @@ export default function Home() {
   };
 
   return (
-    <div className="flex h-screen bg-[#1a1a1b] text-[#d7dadc]">
+    <div className="flex md:h-screen bg-[#1a1a1b] text-[#d7dadc]">
       {/* Mobile Topbar */}
       <div className="lg:hidden fixed top-0 left-0 right-0 h-12 bg-[#1a1a1b] border-b border-[#343536] flex items-center justify-between px-4 z-20">
         {selectedPost ? (
@@ -106,9 +106,8 @@ export default function Home() {
       )}
 
       {/* Main Content */}
-      <div className="flex-1 flex flex-col md:flex-row pt-12 md:pt-0">
+      <div className="flex-1 flex flex-col md:flex-row pt-12 md:pt-0 w-full">
         {/* PostList (middle) */}
-
         <PostList
           subredditName={selectedSubreddit}
           selectedPost={selectedPost}

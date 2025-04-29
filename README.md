@@ -7,6 +7,9 @@ Of course! Here's a clean and professional `README.md` you can use for your proj
 A simple Reddit client where you can view, manage, and interact with subreddits.  
 This project is based on the project idea from [roadmap.sh](https://roadmap.sh/projects/reddit-client).
 
+## 🌐 Live Demo
+Check out the live application here: [DEMO](https://reddit-client-one.vercel.app)
+
 ## 🚀 Project Overview
 
 This Reddit client allows users to:
